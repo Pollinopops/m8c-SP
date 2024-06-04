@@ -416,7 +416,7 @@ void handle_sdl_events(config_params_s *conf) {
     }
 
     // E = toggle keyjazz
-    if (event.key.keysym.sym == SDLK_E) {
+    if (event.key.keysym.sym == SDLK_e) {
       display_keyjazz_overlay(toggle_input_keyjazz(), keyjazz_base_octave, keyjazz_velocity);
     }
 
