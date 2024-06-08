@@ -26,7 +26,7 @@ enum keycodes {
 };
 
 uint8_t keyjazz_enabled = 0;
-uint8_t keyjazz_base_octave = 2;
+uint8_t keyjazz_base_octave = 3;
 uint8_t keyjazz_velocity = 0x64;
 
 static uint8_t keycode = 0; // value of the pressed key
@@ -105,42 +105,96 @@ static input_msg_s handle_keyjazz(
 ) {
   input_msg_s key = {keyjazz, keyvalue, keyjazz_velocity, event->type};
   switch (event->key.keysym.scancode) {
-  case SDL_SCANCODE_LEFT:
-    key.value = keyjazz_base_octave * 12;
+    
+  case SDL_SCANCODE_LEFT: {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (event->key.type == SDL_KEYDOWN) {
+    if (state[SDL_SCANCODE_LALT]) {
+        if (keyjazz_base_octave > 0) {
+           keyjazz_base_octave--;
+           display_keyjazz_overlay(1, keyjazz_base_octave, keyjazz_velocity);
+        }
+        key.value = 0 + keyjazz_base_octave * 12;
+    }
+    else {
+        key.value = 0 + keyjazz_base_octave * 12;
+    }
+    }
     break;
-  case SDL_SCANCODE_DOWN:
-    key.value = 1 + keyjazz_base_octave * 12;
+    }
+  case SDL_SCANCODE_DOWN: {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (event->key.type == SDL_KEYDOWN) {
+    if (state[SDL_SCANCODE_LALT]) {
+        if (keyjazz_velocity > 0x10) {
+           keyjazz_velocity -= 0x10;
+           display_keyjazz_overlay(1, keyjazz_base_octave, keyjazz_velocity);
+        }
+        key.value = 1 + keyjazz_base_octave * 12;
+    }
+    else {
+        key.value = 1 + keyjazz_base_octave * 12;
+    }
+    }
     break;
-  case SDL_SCANCODE_RIGHT:
-    key.value = 2 + keyjazz_base_octave * 12;
+    }
+  case SDL_SCANCODE_RIGHT: {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (event->key.type == SDL_KEYDOWN) {
+    if (state[SDL_SCANCODE_LALT]) {
+        if (keyjazz_base_octave < 8) {
+           keyjazz_base_octave++;
+           display_keyjazz_overlay(1, keyjazz_base_octave, keyjazz_velocity);
+        }
+        key.value = 2 + keyjazz_base_octave * 12;
+    }
+    else {
+        key.value = 2 + keyjazz_base_octave * 12;
+    }
+    }
     break;
-  case SDL_SCANCODE_UP:
-    key.value = 3 + keyjazz_base_octave * 12;
+    }
+  case SDL_SCANCODE_UP: {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (event->key.type == SDL_KEYDOWN) {
+    if (state[SDL_SCANCODE_LALT]) {
+        if (keyjazz_velocity < 0x6F) {
+           keyjazz_velocity += 0x10;
+           display_keyjazz_overlay(1, keyjazz_base_octave, keyjazz_velocity);
+        }
+        key.value = 3 + keyjazz_base_octave * 12;
+    }
+    else {
+        key.value = 3 + keyjazz_base_octave * 12;
+    }
+    }
     break;
-  case SDL_SCANCODE_C:
+    }
+  case SDL_SCANCODE_LALT:
     key.value = 4 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_V:
+  case SDL_SCANCODE_LCTRL:
     key.value = 5 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_G:
+  case SDL_SCANCODE_X:
     key.value = 6 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_B:
+  case SDL_SCANCODE_Z:
     key.value = 7 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_H:
+  case SDL_SCANCODE_ESCAPE:
     key.value = 8 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_N:
+  case SDL_SCANCODE_RETURN:
     key.value = 9 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_J:
+  case SDL_SCANCODE_Q:
     key.value = 10 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_M:
+  case SDL_SCANCODE_W:
     key.value = 11 + keyjazz_base_octave * 12;
     break;
+/*
   case SDL_SCANCODE_Q:
     key.value = 12 + keyjazz_base_octave * 12;
     break;
@@ -192,6 +246,7 @@ static input_msg_s handle_keyjazz(
   case SDL_SCANCODE_P:
     key.value = 28 + keyjazz_base_octave * 12;
     break;
+*/
   default:
     key.type = normal;
     if (event->key.repeat > 0 || event->key.type == SDL_KEYUP) {
@@ -467,10 +522,10 @@ input_msg_s get_input_msg(config_params_s *conf) {
   }
 
   // Additional special button combinations
-  if (keycode == (key_select | key_opt | key_up)) {
+  if (!keyjazz_enabled && keycode == (key_select | key_opt | key_up)) {
     key = (input_msg_s){special, msg_reset_display};
   }
-  if (keycode == (key_select | key_opt | key_down)) {
+  if (!keyjazz_enabled && keycode == (key_select | key_opt | key_down)) {
     key = (input_msg_s){special, msg_quit};
   }
   
