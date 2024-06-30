@@ -179,7 +179,7 @@ static input_msg_s handle_keyjazz(
   case SDL_SCANCODE_X:
     key.value = 6 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_Z:
+  case SDL_SCANCODE_RCTRL:
     key.value = 7 + keyjazz_base_octave * 12;
     break;
   case SDL_SCANCODE_ESCAPE:
