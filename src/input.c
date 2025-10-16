@@ -94,19 +94,19 @@ static input_msg_s handle_keyjazz(SDL_Event *event, uint8_t keyvalue, config_par
   case SDL_SCANCODE_X:
     key.value = 6 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_RCTRL:
+  case SDL_SCANCODE_Z:
     key.value = 7 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_ESCAPE:
+  case SDL_SCANCODE_SPACE:
     key.value = 8 + keyjazz_base_octave * 12;
     break;
   case SDL_SCANCODE_RETURN:
     key.value = 9 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_Q:
+  case SDL_SCANCODE_A:
     key.value = 10 + keyjazz_base_octave * 12;
     break;
-  case SDL_SCANCODE_W:
+  case SDL_SCANCODE_S:
     key.value = 11 + keyjazz_base_octave * 12;
     break;
 
