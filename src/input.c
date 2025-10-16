@@ -293,7 +293,7 @@ void handle_sdl_events(config_params_s *conf) {
 //      if (event.key.keysym.sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT) > 0) {
 //        toggle_fullscreen();
 //        break;
-      }
+//      }
 
       // ALT+F4 quits program
       if (event.key.keysym.sym == SDLK_F4 && (event.key.keysym.mod & KMOD_ALT) > 0) {
