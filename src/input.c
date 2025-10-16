@@ -109,7 +109,7 @@ static input_msg_s handle_keyjazz(SDL_Event *event, uint8_t keyvalue, config_par
   case SDL_SCANCODE_W:
     key.value = 11 + keyjazz_base_octave * 12;
     break;
-  }
+
 /*
   case SDL_SCANCODE_Q:
     key.value = 12 + keyjazz_base_octave * 12;
@@ -301,8 +301,8 @@ void handle_sdl_events(config_params_s *conf) {
         break;
       }
 
-      // E = toggle keyjazz
-      if (event.key.keysym.sym == SDLK_e) {
+      // ESC = toggle keyjazz
+      if (event.key.keysym.sym == SDLK_ESCAPE) {
         display_keyjazz_overlay(toggle_input_keyjazz(), keyjazz_base_octave, keyjazz_velocity);
         break;
       }
